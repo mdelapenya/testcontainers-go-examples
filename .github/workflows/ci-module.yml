@@ -46,13 +46,12 @@ jobs:
         working-directory: ${{ inputs.project-directory }}
         run: go mod tidy
 
-      - name: go test
-        working-directory: ${{ inputs.project-directory }}
-        timeout-minutes: 30
-        run: go test ./... -v -count=1
-
-      - name: Test Summary
-        uses: test-summary/action@032c8a9cec6aaa3c20228112cae6ca10a3b29336 # v2.3
+      - uses: robherley/go-test-action@v0
         with:
-            paths: "${{ inputs.project-directory }}/TEST-unit*.xml"
-        if: always()
+          # Relative path to the directory containing the go.mod of the module you wish to test.
+          # Optional. Default is '.'
+          moduleDirectory: ${{ inputs.project-directory }}
+
+          # Arguments to pass to go test, -json will be prepended automatically.
+          # Optional. Default is './...'
+          testArguments: -v ./... -count=1
