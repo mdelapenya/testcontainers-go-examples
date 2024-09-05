@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - '**/${{ matrix.example }}/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        go-version: [1.22, 1.23]
+        example: [elasticsearch-module, mysql-module, parallel-containers]
+    uses: ./.github/workflows/ci-module.yml
+    with:
+      go-version: ${{ matrix.go-version }}
+      fail-fast: true
+      project-directory: "${{ matrix.example }}"
