@@ -46,7 +46,7 @@ jobs:
         working-directory: ${{ inputs.project-directory }}
         run: go mod tidy
 
-      - uses: robherley/go-test-action@v0
+      - uses: robherley/go-test-action@a612d1675dda7397d3bced585f8a2a3a8545455f # v0
         with:
           # Relative path to the directory containing the go.mod of the module you wish to test.
           # Optional. Default is '.'
