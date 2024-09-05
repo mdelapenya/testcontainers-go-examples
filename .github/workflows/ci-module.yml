@@ -59,10 +59,6 @@ jobs:
         working-directory: ./${{ inputs.project-directory }}
         run: go mod tidy
 
-      - name: ensure compilation
-        working-directory: ./${{ inputs.project-directory }}
-        run: go build
-
       - name: go test
         working-directory: ./${{ inputs.project-directory }}
         timeout-minutes: 30
