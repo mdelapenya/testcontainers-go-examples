@@ -1,4 +1,4 @@
-name: Run tests for ${{ inputs.project-directory }}
+name: Run tests for the Go module
 run-name: "${{ inputs.project-directory }} ${{ inputs.go-version }}"
 
 on:
