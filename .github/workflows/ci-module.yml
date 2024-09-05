@@ -39,20 +39,20 @@ jobs:
         id: go
 
       - name: modVerify
-        working-directory: ./${{ inputs.project-directory }}
+        working-directory: ${{ inputs.project-directory }}
         run: go mod verify
 
       - name: modTidy
-        working-directory: ./${{ inputs.project-directory }}
+        working-directory: ${{ inputs.project-directory }}
         run: go mod tidy
 
       - name: go test
-        working-directory: ./${{ inputs.project-directory }}
+        working-directory: ${{ inputs.project-directory }}
         timeout-minutes: 30
         run: go test ./... -v -count=1
 
       - name: Test Summary
         uses: test-summary/action@032c8a9cec6aaa3c20228112cae6ca10a3b29336 # v2.3
         with:
-            paths: "**/${{ inputs.project-directory }}/TEST-unit*.xml"
+            paths: "${{ inputs.project-directory }}/TEST-unit*.xml"
         if: always()
