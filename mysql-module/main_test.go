@@ -28,7 +28,11 @@ func ExampleMySQLContainer() {
 	if err != nil {
 		log.Fatalf("failed to start container: %s", err)
 	}
-	defer ctr.Terminate(ctx)
+	defer func() {
+		if err := ctr.Terminate(ctx); err != nil {
+			log.Fatalf("failed to terminate container: %s", err)
+		}
+	}()
 
 	fmt.Println(ctr.IsRunning())
 

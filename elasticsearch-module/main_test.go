@@ -15,7 +15,11 @@ func ExampleElasticsearch() {
 	if err != nil {
 		log.Fatalf("Could not start container: %s", err)
 	}
-	defer ctr.Terminate(ctx)
+	defer func() {
+		if err := ctr.Terminate(context.Background()); err != nil {
+			log.Fatalf("failed to terminate container: %s", err)
+		}
+	}()
 
 	fmt.Println(ctr.IsRunning())
 

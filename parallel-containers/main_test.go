@@ -34,7 +34,11 @@ func ExampleParallelContainers() {
 
 	for _, c := range cs {
 		fmt.Println(c.IsRunning())
-		defer c.Terminate(context.Background())
+		defer func() {
+			if err := c.Terminate(context.Background()); err != nil {
+				log.Fatalf("failed to terminate container: %s", err)
+			}
+		}()
 	}
 
 	// Output:
