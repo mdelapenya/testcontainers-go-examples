@@ -41,23 +41,28 @@ func Example_exposeHostPortContainer() {
 	}
 
 	ctx := context.Background()
-	c, err := testcontainers.GenericContainer(ctx, req)
+	ctr, err := testcontainers.GenericContainer(ctx, req)
 	if err != nil {
-		log.Fatalf("failed to create container: %v", err)
+		log.Printf("failed to create container: %v\n", err)
+		return
 	}
 	defer func() {
-		if err := c.Terminate(context.Background()); err != nil {
+		if ctr == nil {
+			return
+		}
+		if err := ctr.Terminate(context.Background()); err != nil {
 			log.Fatalf("failed to terminate container: %v", err)
 		}
 	}()
 
-	code, reader, err := c.Exec(
+	code, reader, err := ctr.Exec(
 		context.Background(),
 		[]string{"wget", "-q", "-O", "-", fmt.Sprintf("http://%s:%d", testcontainers.HostInternal, port)},
 		tcexec.Multiplexed(),
 	)
 	if err != nil {
-		log.Fatalf("failed to execute command: %v", err)
+		log.Printf("failed to execute command: %v\n", err)
+		return
 	}
 
 	fmt.Println("Exit code:", code)
@@ -65,7 +70,8 @@ func Example_exposeHostPortContainer() {
 	// read the response
 	bs, err := io.ReadAll(reader)
 	if err != nil {
-		log.Fatalf("failed to read response: %v", err)
+		log.Printf("failed to read response: %v\n", err)
+		return
 	}
 
 	fmt.Println(string(bs))

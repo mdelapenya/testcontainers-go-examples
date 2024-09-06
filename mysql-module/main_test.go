@@ -26,11 +26,15 @@ func ExampleMySQLContainer() {
 		),
 	)
 	if err != nil {
-		log.Fatalf("failed to start container: %s", err)
+		log.Printf("failed to start container: %v\n", err)
+		return
 	}
 	defer func() {
-		if err := ctr.Terminate(ctx); err != nil {
-			log.Fatalf("failed to terminate container: %s", err)
+		if ctr == nil {
+			return
+		}
+		if err := ctr.Terminate(context.Background()); err != nil {
+			log.Fatalf("failed to terminate container: %v", err)
 		}
 	}()
 

@@ -13,11 +13,15 @@ func ExampleElasticsearchContainer() {
 
 	ctr, err := elasticsearch.Run(ctx, "docker.elastic.co/elasticsearch/elasticsearch:8.14.2")
 	if err != nil {
-		log.Fatalf("Could not start container: %s", err)
+		log.Printf("failed to start container: %v\n", err)
+		return
 	}
 	defer func() {
+		if ctr == nil {
+			return
+		}
 		if err := ctr.Terminate(context.Background()); err != nil {
-			log.Fatalf("failed to terminate container: %s", err)
+			log.Fatalf("failed to terminate container: %v", err)
 		}
 	}()
 
