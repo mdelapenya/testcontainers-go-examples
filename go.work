@@ -5,4 +5,5 @@ use (
 	./expose-host-port
 	./mysql-module
 	./parallel-containers
+	./quickstart
 )
