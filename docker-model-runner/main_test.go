@@ -85,7 +85,7 @@ func Example_modelRunner() {
 	fmt.Printf("models count: %d\n", len(models))
 
 	// 3. Create the model
-	resp, err := dmrClient.CreateModel(fqModelName)
+	_, err = dmrClient.CreateModel(fqModelName)
 	if err != nil {
 		log.Printf("failed to create model: %s", err)
 		return
@@ -110,7 +110,7 @@ func Example_modelRunner() {
 	fmt.Printf("tags count: %v\n", len(model.Tags))
 
 	// 6. Delete the model
-	resp, err = dmrClient.DeleteModel(modelNamespace, modelName)
+	_, err = dmrClient.DeleteModel(modelNamespace, modelName)
 	if err != nil {
 		log.Printf("failed to delete model: %s", err)
 		return
