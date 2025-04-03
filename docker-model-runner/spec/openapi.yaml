@@ -1,0 +1,132 @@
+openapi: "3.1.0"
+info:
+  title: Model Management API
+  description: API for managing models
+  version: 1.0.0
+
+paths:
+  /models/create:
+    post:
+      summary: Create a model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+              required:
+                - from
+      responses:
+        "200":
+          description: Model created successfully
+
+  /models:
+    get:
+      summary: List all models
+      responses:
+        "200":
+          description: A list of models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                    files:
+                      type: array
+                      items:
+                        type: string
+                    created:
+                      type: integer
+                      format: int64
+
+  /models/{namespace}/{name}:
+    get:
+      summary: Get model details
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Model details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  files:
+                    type: array
+                    items:
+                      type: string
+                  created:
+                    type: integer
+                    format: int64
+
+    delete:
+      summary: Delete a model
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Model deleted successfully
+
+  /engines/v1/models:
+    get:
+      summary: List available models
+      responses:
+        "200":
+          description: A list of available models
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        object:
+                          type: string
+                        created:
+                          type: integer
+                          format: int64
+                        owned_by:
+                          type: string
