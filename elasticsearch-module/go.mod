@@ -5,7 +5,7 @@ go 1.24
 toolchain go1.24.2
 
 require (
-	github.com/testcontainers/testcontainers-go v0.36.0 // indirect
+	github.com/testcontainers/testcontainers-go v0.36.0
 	github.com/testcontainers/testcontainers-go/modules/elasticsearch v0.36.0
 )
 

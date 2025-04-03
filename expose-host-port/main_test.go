@@ -42,18 +42,15 @@ func Example_exposeHostPortContainer() {
 
 	ctx := context.Background()
 	ctr, err := testcontainers.GenericContainer(ctx, req)
-	if err != nil {
-		log.Printf("failed to create container: %v\n", err)
-		return
-	}
 	defer func() {
-		if ctr == nil {
-			return
-		}
-		if err := ctr.Terminate(context.Background()); err != nil {
-			log.Fatalf("failed to terminate container: %v", err)
+		if err := testcontainers.TerminateContainer(ctr); err != nil {
+			log.Printf("failed to terminate container: %s", err)
 		}
 	}()
+	if err != nil {
+		log.Printf("failed to start container: %s", err)
+		return
+	}
 
 	code, reader, err := ctr.Exec(
 		context.Background(),
