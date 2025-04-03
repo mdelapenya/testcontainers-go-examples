@@ -56,7 +56,7 @@ jobs:
       - golangci-lint
     strategy:
       matrix:
-        go-version: [1.22, 1.23]
+        go-version: [1.23, 1.24]
         modules: ${{ fromJSON(needs.detect-modules.outputs.modules) }}
     uses: ./.github/workflows/ci-module.yml
     with:
