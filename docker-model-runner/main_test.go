@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+
 	"testcontainers-go-examples/docker-model-runner/sdk/client"
 
 	"github.com/testcontainers/testcontainers-go"
@@ -83,6 +84,10 @@ func Example_modelRunner() {
 
 	// 3. Create the model
 	resp, err := dmrClient.CreateModel(fqModelName)
+	if err != nil {
+		log.Printf("failed to create model: %s", err)
+		return
+	}
 	log.Printf("created model: %v", resp)
 	fmt.Println("model created")
 
