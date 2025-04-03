@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-
 	"testcontainers-go-examples/docker-model-runner/sdk/client"
 
 	"github.com/testcontainers/testcontainers-go"
