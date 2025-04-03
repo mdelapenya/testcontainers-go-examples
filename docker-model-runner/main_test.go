@@ -29,6 +29,8 @@ func Example_modelRunner() {
 		return
 	}
 	if !is {
+		// Because the Docker Model Runner is only available on Docker Desktop, we skip the example
+		// on those platforms. We are printing the expected output to make the example work.
 		log.Printf("skipping example because it requires Docker Desktop")
 		fmt.Println("true")                                           // Printing true to simulate the socat container is running
 		fmt.Println("Docker Model Runner\n\nThe service is running.") // Printing Server response to simulate the service is running
