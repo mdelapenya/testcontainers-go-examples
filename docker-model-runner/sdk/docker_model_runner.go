@@ -1,59 +1,59 @@
 package sdk
 
 import (
-	id3c71ffd0cf76cef9f97c6ff1b9862595e79fc05ef143bc8db76913f3deff219 "testcontainers-go-examples/docker-model-runner/sdk/engines"
-	i1ac6e4f9882ce84a0e7b1c4b428977232421d6efa2acfdc156a6e6f1b93dfe9a "testcontainers-go-examples/docker-model-runner/sdk/modelsrequests"
+	sdkengines "testcontainers-go-examples/docker-model-runner/sdk/engines"
+	sdkmodelsrequests "testcontainers-go-examples/docker-model-runner/sdk/modelsrequests"
 
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f "github.com/microsoft/kiota-abstractions-go"
-	i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
-	i4bcdc892e61ac17e2afc10b5e2b536b29f4fd6c1ad30f4a5a68df47495db3347 "github.com/microsoft/kiota-serialization-form-go"
-	i25911dc319edd61cbac496af7eab5ef20b6069a42515e22ec6a9bc97bf598488 "github.com/microsoft/kiota-serialization-json-go"
-	i56887720f41ac882814261620b1c8459c4a992a0207af547c4453dd39fabc426 "github.com/microsoft/kiota-serialization-multipart-go"
-	i7294a22093d408fdca300f11b81a887d89c47b764af06c8b803e2323973fdb83 "github.com/microsoft/kiota-serialization-text-go"
+	sdkabstractions "github.com/microsoft/kiota-abstractions-go"
+	sdkserialization "github.com/microsoft/kiota-abstractions-go/serialization"
+	sdkserializationform "github.com/microsoft/kiota-serialization-form-go"
+	sdkserializationjson "github.com/microsoft/kiota-serialization-json-go"
+	sdkserializationmultipart "github.com/microsoft/kiota-serialization-multipart-go"
+	sdkserializationtext "github.com/microsoft/kiota-serialization-text-go"
 )
 
 // DockerModelRunner the main entry point of the SDK, exposes the configuration and the fluent API.
 type DockerModelRunner struct {
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
+	sdkabstractions.BaseRequestBuilder
 }
 
 // NewDockerModelRunner instantiates a new DockerModelRunner and sets the default values.
-func NewDockerModelRunner(requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter) *DockerModelRunner {
+func NewDockerModelRunner(requestAdapter sdkabstractions.RequestAdapter) *DockerModelRunner {
 	m := &DockerModelRunner{
-		BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}", map[string]string{}),
+		BaseRequestBuilder: *sdkabstractions.NewBaseRequestBuilder(requestAdapter, "{+baseurl}", map[string]string{}),
 	}
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RegisterDefaultSerializer(func() i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.SerializationWriterFactory {
-		return i25911dc319edd61cbac496af7eab5ef20b6069a42515e22ec6a9bc97bf598488.NewJsonSerializationWriterFactory()
+	sdkabstractions.RegisterDefaultSerializer(func() sdkserialization.SerializationWriterFactory {
+		return sdkserializationjson.NewJsonSerializationWriterFactory()
 	})
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RegisterDefaultSerializer(func() i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.SerializationWriterFactory {
-		return i7294a22093d408fdca300f11b81a887d89c47b764af06c8b803e2323973fdb83.NewTextSerializationWriterFactory()
+	sdkabstractions.RegisterDefaultSerializer(func() sdkserialization.SerializationWriterFactory {
+		return sdkserializationtext.NewTextSerializationWriterFactory()
 	})
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RegisterDefaultSerializer(func() i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.SerializationWriterFactory {
-		return i4bcdc892e61ac17e2afc10b5e2b536b29f4fd6c1ad30f4a5a68df47495db3347.NewFormSerializationWriterFactory()
+	sdkabstractions.RegisterDefaultSerializer(func() sdkserialization.SerializationWriterFactory {
+		return sdkserializationform.NewFormSerializationWriterFactory()
 	})
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RegisterDefaultSerializer(func() i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.SerializationWriterFactory {
-		return i56887720f41ac882814261620b1c8459c4a992a0207af547c4453dd39fabc426.NewMultipartSerializationWriterFactory()
+	sdkabstractions.RegisterDefaultSerializer(func() sdkserialization.SerializationWriterFactory {
+		return sdkserializationmultipart.NewMultipartSerializationWriterFactory()
 	})
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RegisterDefaultDeserializer(func() i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNodeFactory {
-		return i25911dc319edd61cbac496af7eab5ef20b6069a42515e22ec6a9bc97bf598488.NewJsonParseNodeFactory()
+	sdkabstractions.RegisterDefaultDeserializer(func() sdkserialization.ParseNodeFactory {
+		return sdkserializationjson.NewJsonParseNodeFactory()
 	})
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RegisterDefaultDeserializer(func() i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNodeFactory {
-		return i7294a22093d408fdca300f11b81a887d89c47b764af06c8b803e2323973fdb83.NewTextParseNodeFactory()
+	sdkabstractions.RegisterDefaultDeserializer(func() sdkserialization.ParseNodeFactory {
+		return sdkserializationtext.NewTextParseNodeFactory()
 	})
-	i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RegisterDefaultDeserializer(func() i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNodeFactory {
-		return i4bcdc892e61ac17e2afc10b5e2b536b29f4fd6c1ad30f4a5a68df47495db3347.NewFormParseNodeFactory()
+	sdkabstractions.RegisterDefaultDeserializer(func() sdkserialization.ParseNodeFactory {
+		return sdkserializationform.NewFormParseNodeFactory()
 	})
 	return m
 }
 
 // Engines the engines property
 // returns a *EnginesRequestBuilder when successful
-func (m *DockerModelRunner) Engines() *id3c71ffd0cf76cef9f97c6ff1b9862595e79fc05ef143bc8db76913f3deff219.EnginesRequestBuilder {
-	return id3c71ffd0cf76cef9f97c6ff1b9862595e79fc05ef143bc8db76913f3deff219.NewEnginesRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+func (m *DockerModelRunner) Engines() *sdkengines.EnginesRequestBuilder {
+	return sdkengines.NewEnginesRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 
 // Models the models property
 // returns a *ModelsRequestBuilder when successful
-func (m *DockerModelRunner) Models() *i1ac6e4f9882ce84a0e7b1c4b428977232421d6efa2acfdc156a6e6f1b93dfe9a.ModelsRequestBuilder {
-	return i1ac6e4f9882ce84a0e7b1c4b428977232421d6efa2acfdc156a6e6f1b93dfe9a.NewModelsRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+func (m *DockerModelRunner) Models() *sdkmodelsrequests.ModelsRequestBuilder {
+	return sdkmodelsrequests.NewModelsRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
