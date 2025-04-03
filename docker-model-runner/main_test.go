@@ -90,7 +90,6 @@ func Example_modelRunner() {
 		log.Printf("failed to create model: %s", err)
 		return
 	}
-	log.Printf("created model: %v", resp)
 	fmt.Println("model created")
 
 	// 4. Verify the model was created
@@ -113,10 +112,9 @@ func Example_modelRunner() {
 	// 6. Delete the model
 	resp, err = dmrClient.DeleteModel(modelNamespace, modelName)
 	if err != nil {
-		log.Printf("failed to get models: %s", err)
+		log.Printf("failed to delete model: %s", err)
 		return
 	}
-	log.Printf("deleted model: %v", resp)
 	fmt.Println("model deleted")
 
 	// 7. List the models again
