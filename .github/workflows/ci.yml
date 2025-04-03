@@ -69,10 +69,8 @@ jobs:
     if: needs.detect-modules.outputs.modules != '[]' # Ensure job runs only if there are changes
     strategy:
       matrix:
-        go-version: [1.23, 1.24]
         module: ${{ fromJSON(needs.detect-modules.outputs.modules || '[]') }}
     uses: ./.github/workflows/ci-module.yml
     with:
-      go-version: ${{ matrix.go-version }}
       fail-fast: true
       project-directory: "${{ matrix.module }}"

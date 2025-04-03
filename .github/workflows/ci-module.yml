@@ -1,13 +1,9 @@
 name: Run tests for the Go module
-run-name: "${{ inputs.project-directory }} ${{ inputs.go-version }}"
+run-name: "${{ inputs.project-directory }}"
 
 on:
   workflow_call:
     inputs:
-      go-version:
-        required: true
-        type: string
-        description: "The version of Go to use for the test."
       fail-fast:
         required: false
         type: boolean
@@ -24,8 +20,8 @@ permissions:
 
 jobs:
   test-go-project:
-    name: "${{ inputs.project-directory }}/${{ inputs.go-version }}"
-    runs-on: 'ubuntu-latest'
+    name: "${{ inputs.project-directory }}"
+    runs-on: ['ubuntu-latest', 'macos-latest', 'windows-latest']
     continue-on-error: ${{ !inputs.fail-fast }}
     steps:
       - name: Check out code into the Go module directory
@@ -34,7 +30,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5
         with:
-            go-version: '${{ inputs.go-version }}'
+            go-version-file: ${{ inputs.project-directory }}/go.mod
             cache-dependency-path: '${{ inputs.project-directory }}/go.sum'
         id: go
 
