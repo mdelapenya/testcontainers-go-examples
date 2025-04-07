@@ -27,7 +27,7 @@ jobs:
 
       - name: Install and Configure Docker for Mac
         if: ${{ matrix.os == 'macos-latest' }}
-        uses: docker/desktop-action@70b6492577832988cce80d7bba119a2eb61ac5d6 # v0.4.0
+        uses: docker/desktop-action/start@70b6492577832988cce80d7bba119a2eb61ac5d6 # v0.4.0
 
       - name: Set up Go
         uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5
