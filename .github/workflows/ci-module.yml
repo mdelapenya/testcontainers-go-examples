@@ -4,11 +4,6 @@ run-name: "${{ inputs.project-directory }}"
 on:
   workflow_call:
     inputs:
-      fail-fast:
-        required: false
-        type: boolean
-        default: true
-        description: "Fail the workflow if any of the jobs fail."
       project-directory:
         required: true
         type: string
@@ -20,12 +15,12 @@ permissions:
 
 jobs:
   test-go-project:
-    name: "${{ inputs.project-directory }}"
+    name: "${{ inputs.project-directory }} / ${{ matrix.os }}"
     strategy:
       matrix:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
     runs-on: ${{ matrix.os }} 
-    continue-on-error: ${{ !inputs.fail-fast }}
+    continue-on-error: true
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4

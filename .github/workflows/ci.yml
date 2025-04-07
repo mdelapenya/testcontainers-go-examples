@@ -72,5 +72,4 @@ jobs:
         module: ${{ fromJSON(needs.detect-modules.outputs.modules || '[]') }}
     uses: ./.github/workflows/ci-module.yml
     with:
-      fail-fast: true
       project-directory: "${{ matrix.module }}"
