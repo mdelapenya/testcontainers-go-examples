@@ -40,12 +40,5 @@ jobs:
         working-directory: ${{ inputs.project-directory }}
         run: go mod tidy
 
-      - uses: robherley/go-test-action@a612d1675dda7397d3bced585f8a2a3a8545455f # v0
-        with:
-          # Relative path to the directory containing the go.mod of the module you wish to test.
-          # Optional. Default is '.'
-          moduleDirectory: ${{ inputs.project-directory }}
-
-          # Arguments to pass to go test, -json will be prepended automatically.
-          # Optional. Default is './...'
-          testArguments: -v ./... -count=1
+      - name: Run Tests
+        run: go test -v ./... -count=1 -timeout=300s
