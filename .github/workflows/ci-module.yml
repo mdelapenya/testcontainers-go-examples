@@ -41,4 +41,5 @@ jobs:
         run: go mod tidy
 
       - name: Run Tests
+        working-directory: ${{ inputs.project-directory }}
         run: go test -v ./... -count=1 -timeout=300s
