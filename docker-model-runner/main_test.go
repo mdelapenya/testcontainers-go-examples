@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/testcontainers/goexamples/docker-model-runner/sdk/client"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/socat"
 	"github.com/testcontainers/testcontainers-go/wait"
-
-	"testcontainers-go-examples/docker-model-runner/sdk/client"
 )
 
 const (
@@ -106,7 +105,7 @@ func Example_modelRunner() {
 		log.Printf("failed to get model: %s", err)
 		return
 	}
-	fmt.Printf("ID: %v\n", model.ID)
+	fmt.Printf("ID: %v\n", model.Tags[0])
 	fmt.Printf("tags count: %v\n", len(model.Tags))
 
 	// 6. Delete the model

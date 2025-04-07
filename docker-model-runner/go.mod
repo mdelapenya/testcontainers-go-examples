@@ -1,4 +1,4 @@
-module testcontainers-go-examples/docker-model-runner
+module github.com/testcontainers/goexamples/docker-model-runner
 
 go 1.23.6
 
