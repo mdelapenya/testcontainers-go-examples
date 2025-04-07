@@ -1,6 +1,6 @@
 module testcontainers-go-examples/docker-model-runner
 
-go 1.24.2
+go 1.23.6
 
 require (
 	github.com/testcontainers/testcontainers-go v0.36.1-0.20250403102041-9bf42a1e12c1
