@@ -47,7 +47,7 @@ formatters:
       sections:
         - standard
         - default
-        - prefix(github.com/testcontainers)
+        - prefix(testcontainers-go-examples)
   exclusions:
     generated: lax
     paths:
