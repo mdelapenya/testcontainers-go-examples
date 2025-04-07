@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"log"
 
+	"testcontainers-go-examples/docker-model-runner/sdk/client"
+
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/socat"
 	"github.com/testcontainers/testcontainers-go/wait"
-
-	"testcontainers-go-examples/docker-model-runner/sdk/client"
 )
 
 const (
