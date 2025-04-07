@@ -31,15 +31,15 @@ func Example_modelRunner() {
 		// Because the Docker Model Runner is only available on Docker Desktop, we skip the example
 		// on those platforms. We are printing the expected output to make the example work.
 		log.Printf("skipping example because it requires Docker Desktop")
-		fmt.Println("true")                                           // Printing true to simulate the socat container is running
-		fmt.Println("Docker Model Runner\n\nThe service is running.") // Printing Server response to simulate the service is running
-		fmt.Println("models count: 0")                                // Printing 0 to simulate the number of models
-		fmt.Println("model created")                                  // Printing to simulate the model was created
-		fmt.Println("models count: 1")                                // Printing 1 to simulate the number of models after creation
-		fmt.Println("ID: " + fqModelName)                             // Printing the ID of the model to simulate the model was created
-		fmt.Println("tags count: 1")                                  // Printing 1 to simulate the tags count
-		fmt.Println("model deleted")                                  // Printing to simulate the model was deleted
-		fmt.Println("models count: 0")                                // Printing 0 to simulate the number of models after deletion
+		fmt.Println("true")                                              // Printing true to simulate the socat container is running
+		fmt.Printf("Docker Model Runner\n\nThe service is running.\n\n") // Printing Server response to simulate the service is running
+		fmt.Println("models count: 0")                                   // Printing 0 to simulate the number of models
+		fmt.Println("model created")                                     // Printing to simulate the model was created
+		fmt.Println("models count: 1")                                   // Printing 1 to simulate the number of models after creation
+		fmt.Println("ID: " + fqModelName)                                // Printing the ID of the model to simulate the model was created
+		fmt.Println("tags count: 1")                                     // Printing 1 to simulate the tags count
+		fmt.Println("model deleted")                                     // Printing to simulate the model was deleted
+		fmt.Println("models count: 0")                                   // Printing 0 to simulate the number of models after deletion
 		return
 	}
 
@@ -129,6 +129,7 @@ func Example_modelRunner() {
 	// Docker Model Runner
 	//
 	// The service is running.
+	//
 	// models count: 0
 	// model created
 	// models count: 1
