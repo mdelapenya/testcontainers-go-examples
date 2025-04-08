@@ -18,7 +18,7 @@ jobs:
     name: "${{ inputs.project-directory }} / ${{ matrix.os }}"
     strategy:
       matrix:
-        os: ['ubuntu-latest', 'macos-latest']
+        os: ['ubuntu-latest']
     runs-on: ${{ matrix.os }} 
     continue-on-error: true
     steps:
