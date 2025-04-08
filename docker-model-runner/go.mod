@@ -1,8 +1,11 @@
-module testcontainers-go-examples/parallel-containers
+module github.com/testcontainers/goexamples/docker-model-runner
 
 go 1.23.6
 
-require github.com/testcontainers/testcontainers-go v0.36.1-0.20250403102041-9bf42a1e12c1
+require (
+	github.com/testcontainers/testcontainers-go v0.36.1-0.20250403102041-9bf42a1e12c1
+	github.com/testcontainers/testcontainers-go/modules/socat v0.0.0-20250403102041-9bf42a1e12c1
+)
 
 require (
 	dario.cat/mergo v1.0.1 // indirect
@@ -50,17 +53,12 @@ require (
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect
 	go.opentelemetry.io/otel v1.35.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.35.0 // indirect
 	go.opentelemetry.io/otel/metric v1.35.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.35.0 // indirect
 	go.opentelemetry.io/otel/trace v1.35.0 // indirect
-	go.opentelemetry.io/proto/otlp v1.5.0 // indirect
 	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250313205543-e70fdf4c4cb4 // indirect
 	google.golang.org/grpc v1.70.0 // indirect
-	google.golang.org/protobuf v1.36.5 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
