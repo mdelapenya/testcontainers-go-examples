@@ -31,17 +31,13 @@ func Example_exposeHostPortContainer() {
 		_ = server.ListenAndServe()
 	}()
 
-	req := testcontainers.GenericContainerRequest{
-		ContainerRequest: testcontainers.ContainerRequest{
-			Image:           "alpine:3.17",
-			HostAccessPorts: []int{port},
-			Cmd:             []string{"top"},
-		},
-		Started: true,
+	moduleOpts := []testcontainers.ContainerCustomizer{
+		testcontainers.WithHostPortAccess(port),
+		testcontainers.WithCmd("top"),
 	}
 
 	ctx := context.Background()
-	ctr, err := testcontainers.GenericContainer(ctx, req)
+	ctr, err := testcontainers.Run(ctx, "alpine:3.17", moduleOpts...)
 	defer func() {
 		if err := testcontainers.TerminateContainer(ctr); err != nil {
 			log.Printf("failed to terminate container: %s", err)

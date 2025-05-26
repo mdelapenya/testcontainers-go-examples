@@ -9,17 +9,14 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-func ExampleGenericContainer() {
+func ExampleRun() {
 	ctx := context.Background()
-	req := testcontainers.ContainerRequest{
-		Image:        "redis:latest",
-		ExposedPorts: []string{"6379/tcp"},
-		WaitingFor:   wait.ForLog("Ready to accept connections"),
+	moduleOpts := []testcontainers.ContainerCustomizer{
+		testcontainers.WithExposedPorts("6379/tcp"),
+		testcontainers.WithWaitStrategy(wait.ForLog("Ready to accept connections")),
 	}
-	redisC, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
-		ContainerRequest: req,
-		Started:          true,
-	})
+
+	redisC, err := testcontainers.Run(ctx, "redis:latest", moduleOpts...)
 	defer func() {
 		if err := testcontainers.TerminateContainer(redisC); err != nil {
 			log.Printf("failed to terminate container: %s", err)
