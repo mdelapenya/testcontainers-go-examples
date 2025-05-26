@@ -35,9 +35,11 @@ jobs:
 
       - name: Use testcontainers-go@${{ matrix.testcontainers-go-version }}
         if: ${{ inputs.project-directory == 'compose-module' }}
+        working-directory: ${{ inputs.project-directory }}
         run: go get github.com/testcontainers/testcontainers-go/modules/compose@${{ matrix.testcontainers-go-version }}
 
       - name: Use testcontainers-go@${{ matrix.testcontainers-go-version }}
+        working-directory: ${{ inputs.project-directory }}
         run: go get github.com/testcontainers/testcontainers-go@${{ matrix.testcontainers-go-version }}
 
       - name: modVerify
