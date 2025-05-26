@@ -3,8 +3,8 @@ module github.com/testcontainers/goexamples/docker-model-runner
 go 1.23.6
 
 require (
-	github.com/testcontainers/testcontainers-go v0.36.1-0.20250403102041-9bf42a1e12c1
-	github.com/testcontainers/testcontainers-go/modules/socat v0.0.0-20250403102041-9bf42a1e12c1
+	github.com/testcontainers/testcontainers-go v0.37.0
+	github.com/testcontainers/testcontainers-go/modules/dockermodelrunner v0.37.1
 )
 
 require (
