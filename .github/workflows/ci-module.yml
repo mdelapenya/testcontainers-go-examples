@@ -52,6 +52,7 @@ jobs:
 
       - name: warm up Docker images for Compose
         if: ${{ inputs.project-directory == 'compose-module' }}
+        working-directory: ${{ inputs.project-directory }}
         run: docker compose -f testdata/docker-compose.yml pull
 
       - name: Run Tests
