@@ -14,13 +14,14 @@ import (
 func Example_compose() {
 	compose, err := tccompose.NewDockerCompose(filepath.Join("testdata", "docker-compose.yml"))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 
 	defer func() {
 		if err := compose.Down(context.Background(),
 			tccompose.RemoveOrphans(true), tccompose.RemoveImagesLocal); err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}()
 
@@ -29,7 +30,8 @@ func Example_compose() {
 
 	err = compose.Up(ctx, tccompose.Wait(true))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 
 	serviceNames := compose.Services()
@@ -41,12 +43,13 @@ func Example_compose() {
 func Example_compose_waitForInvalidService() {
 	compose, err := tccompose.NewDockerCompose(filepath.Join("testdata", "docker-compose.yml"))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 
 	defer func() {
 		if err := compose.Down(context.Background(), tccompose.RemoveOrphans(true), tccompose.RemoveImagesLocal); err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}()
 
@@ -58,7 +61,8 @@ func Example_compose_waitForInvalidService() {
 		Up(ctx, tccompose.Wait(true))
 
 	if err == nil {
-		log.Fatalf("Expected error to be thrown because service with wait strategy is not running: %s", err)
+		log.Printf("Expected error to be thrown because service with wait strategy is not running: %s", err)
+		return
 	}
 
 	fmt.Println(err.Error())
@@ -70,12 +74,13 @@ func Example_compose_waitForInvalidService() {
 func Example_compose_waitForLogStrategy() {
 	compose, err := tccompose.NewDockerCompose(filepath.Join("testdata", "docker-compose.yml"))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 
 	defer func() {
 		if err := compose.Down(context.Background(), tccompose.RemoveOrphans(true), tccompose.RemoveImagesLocal); err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}()
 
