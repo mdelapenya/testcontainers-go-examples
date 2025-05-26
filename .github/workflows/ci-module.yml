@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   test-go-project:
-    name: "${{ inputs.project-directory }} / ${{ matrix.os }}"
+    name: "${{ inputs.project-directory }} / ${{ matrix.testcontainers-go-version }} / ${{ matrix.os }}"
     strategy:
       matrix:
         os: ['ubuntu-latest']
