@@ -1,6 +1,7 @@
-go 1.23.6
+go 1.23.8
 
 use (
+	./compose-module
 	./docker-model-runner
 	./elasticsearch-module
 	./expose-host-port

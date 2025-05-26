@@ -19,6 +19,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest']
+        testcontainers-go-version: ["v0.37.0", "main"]
     runs-on: ${{ matrix.os }} 
     continue-on-error: true
     steps:
@@ -32,6 +33,13 @@ jobs:
             cache-dependency-path: '${{ inputs.project-directory }}/go.sum'
         id: go
 
+      - name: Use testcontainers-go@${{ matrix.testcontainers-go-version }}
+        if: ${{ inputs.project-directory == 'compose-module' }}
+        run: go get github.com/testcontainers/testcontainers-go/modules/compose@${{ matrix.testcontainers-go-version }}
+
+      - name: Use testcontainers-go@${{ matrix.testcontainers-go-version }}
+        run: go get github.com/testcontainers/testcontainers-go@${{ matrix.testcontainers-go-version }}
+
       - name: modVerify
         working-directory: ${{ inputs.project-directory }}
         run: go mod verify
@@ -40,6 +48,18 @@ jobs:
         working-directory: ${{ inputs.project-directory }}
         run: go mod tidy
 
+      - name: warm up Docker images for Compose
+        if: ${{ inputs.project-directory == 'compose-module' }}
+        run: docker compose -f testdata/docker-compose.yml pull
+
       - name: Run Tests
+        timeout-minutes: 30
         working-directory: ${{ inputs.project-directory }}
+        env:
+          # defines the timeout for Ryuk to receive the first connection (default: 60s). Value layout is described in time.ParseDuration documentation.
+          RYUK_CONNECTION_TIMEOUT: '120s'
+          # defines the timeout for Ryuk to reconnect to Docker (default: 10s). Value layout is described in time.ParseDuration documentation.
+          RYUK_RECONNECTION_TIMEOUT: '30s'
+          TESTCONTAINERS_RYUK_DISABLED: false
+          TESTCONTAINERS_RYUK_CONTAINER_PRIVILEGED: true
         run: go test -v ./... -count=1 -timeout=300s
