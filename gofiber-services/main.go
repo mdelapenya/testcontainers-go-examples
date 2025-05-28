@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/gofiber/contrib/testcontainers"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"testcontainers-go-examples/gotodo/app/dal"
 	"testcontainers-go-examples/gotodo/app/routes"
 	"testcontainers-go-examples/gotodo/config"
 	"testcontainers-go-examples/gotodo/config/database"
 	"testcontainers-go-examples/gotodo/utils"
-
-	"github.com/gofiber/contrib/testcontainers"
-	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/fiber/v3/middleware/logger"
-	"github.com/testcontainers/testcontainers-go/modules/postgres"
 )
 
 func main() {
@@ -68,7 +67,9 @@ func main() {
 	config.DB = connString
 
 	database.Connect(config.DB)
-	database.Migrate(&dal.User{}, &dal.Todo{})
+	if err := database.Migrate(&dal.User{}, &dal.Todo{}); err != nil {
+		panic(err)
+	}
 
 	app.Use(logger.New())
 

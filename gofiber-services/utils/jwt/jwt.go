@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"testcontainers-go-examples/gotodo/config"
-
 	"github.com/golang-jwt/jwt/v5"
+	"testcontainers-go-examples/gotodo/config"
 )
 
 // TokenPayload defines the payload for the token

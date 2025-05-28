@@ -2,13 +2,13 @@ package dal_test
 
 import (
 	"context"
-	"testcontainers-go-examples/gotodo/app/dal"
-	"testcontainers-go-examples/gotodo/config/database"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 	tc "github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
+	"testcontainers-go-examples/gotodo/app/dal"
+	"testcontainers-go-examples/gotodo/config/database"
 )
 
 func TestTodos(t *testing.T) {
@@ -29,7 +29,8 @@ func TestTodos(t *testing.T) {
 	db, err := database.New(connString)
 	require.NoError(t, err)
 
-	db.AutoMigrate(&dal.User{}, &dal.Todo{})
+	err = db.AutoMigrate(&dal.User{}, &dal.Todo{})
+	require.NoError(t, err)
 
 	user := &dal.User{
 		Name:     "John Doe",
@@ -111,7 +112,7 @@ func TestTodos(t *testing.T) {
 
 			result = dal.DeleteTodo(db, todo.ID, &uID)
 			require.NoError(t, result.Error)
-			require.Equal(t, result.RowsAffected, int64(1))
+			require.Equal(t, int64(1), result.RowsAffected)
 		})
 	})
 }

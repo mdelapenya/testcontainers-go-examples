@@ -2,13 +2,13 @@ package dal_test
 
 import (
 	"context"
-	"testcontainers-go-examples/gotodo/app/dal"
-	"testcontainers-go-examples/gotodo/config/database"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 	tc "github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
+	"testcontainers-go-examples/gotodo/app/dal"
+	"testcontainers-go-examples/gotodo/config/database"
 )
 
 func TestUsers(t *testing.T) {
@@ -29,7 +29,8 @@ func TestUsers(t *testing.T) {
 	db, err := database.New(connString)
 	require.NoError(t, err)
 
-	db.AutoMigrate(&dal.User{})
+	err = db.AutoMigrate(&dal.User{})
+	require.NoError(t, err)
 
 	t.Run("create", func(t *testing.T) {
 		user := &dal.User{

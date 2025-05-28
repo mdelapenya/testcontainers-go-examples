@@ -3,13 +3,12 @@ package services
 import (
 	"errors"
 
+	"github.com/gofiber/fiber/v3"
+	"gorm.io/gorm"
 	"testcontainers-go-examples/gotodo/app/dal"
 	"testcontainers-go-examples/gotodo/app/types"
 	"testcontainers-go-examples/gotodo/config/database"
 	"testcontainers-go-examples/gotodo/utils"
-
-	"github.com/gofiber/fiber/v3"
-	"gorm.io/gorm"
 )
 
 // CreateTodo is responsible for create todo

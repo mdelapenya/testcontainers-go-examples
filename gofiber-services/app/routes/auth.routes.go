@@ -1,12 +1,11 @@
 package routes
 
 import (
-	"testcontainers-go-examples/gotodo/app/services"
-
 	"github.com/gofiber/fiber/v3"
+	"testcontainers-go-examples/gotodo/app/services"
 )
 
-// AuthRoutes containes all the auth routes
+// AuthRoutes contains all the auth routes
 func AuthRoutes(app fiber.Router) {
 	r := app.Group("/auth")
 

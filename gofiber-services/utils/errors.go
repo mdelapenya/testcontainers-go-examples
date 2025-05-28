@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"errors"
+
 	"github.com/gofiber/fiber/v3"
 )
 
@@ -15,8 +17,9 @@ func ErrorHandler(c fiber.Ctx, err error) error {
 	code := fiber.StatusInternalServerError
 
 	// Check if it's an fiber.Error type
-	if e, ok := err.(*fiber.Error); ok {
-		code = e.Code
+	var targetErr *fiber.Error
+	if errors.As(err, &targetErr) {
+		code = targetErr.Code
 	}
 
 	return c.Status(code).JSON(&httpError{
