@@ -69,6 +69,7 @@ jobs:
       - golangci-lint
     if: needs.detect-modules.outputs.modules != '[]' # Ensure job runs only if there are changes
     strategy:
+      fail-fast: false
       matrix:
         module: ${{ fromJSON(needs.detect-modules.outputs.modules || '[]') }}
     uses: ./.github/workflows/ci-module.yml
