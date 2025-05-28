@@ -30,7 +30,7 @@ func FindTodoByUser(db *gorm.DB, dest interface{}, todoIden interface{}, userIde
 
 // FindTodosByUser finds the todos with user's identifier given
 func FindTodosByUser(db *gorm.DB, dest interface{}, userIden interface{}) *gorm.DB {
-	return FindTodo(db, dest, "todos.user = ?", userIden)
+	return db.Model(&Todo{}).Find(dest, "todos.user = ?", userIden)
 }
 
 // DeleteTodo deletes a todo from todos' table with the given todo and user identifier
