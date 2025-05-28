@@ -5,12 +5,13 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"gorm.io/gorm"
-	"testcontainers-go-examples/gotodo/app/dal"
-	"testcontainers-go-examples/gotodo/app/types"
-	"testcontainers-go-examples/gotodo/config/database"
-	"testcontainers-go-examples/gotodo/utils"
-	"testcontainers-go-examples/gotodo/utils/jwt"
-	"testcontainers-go-examples/gotodo/utils/password"
+
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/dal"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/types"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/config/database"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/utils"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/utils/jwt"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/utils/password"
 )
 
 // Login service logs in a user

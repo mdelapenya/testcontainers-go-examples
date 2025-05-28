@@ -4,7 +4,8 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v3"
-	"testcontainers-go-examples/gotodo/utils/jwt"
+
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/utils/jwt"
 )
 
 // Auth is the authentication middleware

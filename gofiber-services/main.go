@@ -9,11 +9,12 @@ import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
-	"testcontainers-go-examples/gotodo/app/dal"
-	"testcontainers-go-examples/gotodo/app/routes"
-	"testcontainers-go-examples/gotodo/config"
-	"testcontainers-go-examples/gotodo/config/database"
-	"testcontainers-go-examples/gotodo/utils"
+
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/dal"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/routes"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/config"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/config/database"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/utils"
 )
 
 func main() {

@@ -5,10 +5,11 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"gorm.io/gorm"
-	"testcontainers-go-examples/gotodo/app/dal"
-	"testcontainers-go-examples/gotodo/app/types"
-	"testcontainers-go-examples/gotodo/config/database"
-	"testcontainers-go-examples/gotodo/utils"
+
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/dal"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/types"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/config/database"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/utils"
 )
 
 // CreateTodo is responsible for create todo

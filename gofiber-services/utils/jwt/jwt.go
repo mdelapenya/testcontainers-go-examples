@@ -6,7 +6,8 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"testcontainers-go-examples/gotodo/config"
+
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/config"
 )
 
 // TokenPayload defines the payload for the token

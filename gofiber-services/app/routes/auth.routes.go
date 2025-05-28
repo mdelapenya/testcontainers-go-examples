@@ -2,7 +2,8 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v3"
-	"testcontainers-go-examples/gotodo/app/services"
+
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/services"
 )
 
 // AuthRoutes contains all the auth routes

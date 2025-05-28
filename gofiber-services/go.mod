@@ -1,4 +1,4 @@
-module testcontainers-go-examples/gotodo
+module github.com/mdelapenya/testcontainers-go-examples/gofiber-services
 
 go 1.24.1
 

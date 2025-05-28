@@ -7,8 +7,9 @@ import (
 	"github.com/stretchr/testify/require"
 	tc "github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
-	"testcontainers-go-examples/gotodo/app/dal"
-	"testcontainers-go-examples/gotodo/config/database"
+
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/dal"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/config/database"
 )
 
 func TestTodos(t *testing.T) {

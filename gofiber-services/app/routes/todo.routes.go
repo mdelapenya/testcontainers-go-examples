@@ -2,8 +2,9 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v3"
-	"testcontainers-go-examples/gotodo/app/services"
-	"testcontainers-go-examples/gotodo/utils/middleware"
+
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/services"
+	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/utils/middleware"
 )
 
 // TodoRoutes contains all routes relative to /todo
