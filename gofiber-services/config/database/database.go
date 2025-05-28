@@ -6,7 +6,7 @@ import (
 
 	"testcontainers-go-examples/gotodo/config"
 
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
@@ -16,7 +16,7 @@ var DB *gorm.DB
 
 // Connect initiate the database connection and migrate all the tables
 func Connect() {
-	db, err := gorm.Open(sqlite.Open(config.DB), &gorm.Config{
+	db, err := gorm.Open(postgres.Open(config.DB), &gorm.Config{
 		NowFunc: func() time.Time { return time.Now().Local() },
 		Logger:  logger.Default.LogMode(logger.Info),
 	})

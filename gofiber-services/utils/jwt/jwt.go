@@ -12,7 +12,7 @@ import (
 
 // TokenPayload defines the payload for the token
 type TokenPayload struct {
-	ID uint
+	ID uint64
 }
 
 // Generate generates the jwt token based on payload
@@ -64,13 +64,13 @@ func Verify(token string) (*TokenPayload, error) {
 		return nil, err
 	}
 
-	// Getting ID, it's an interface{} so I need to cast it to uint
+	// Getting ID, it's an interface{} so I need to cast it to uint64
 	id, ok := claims["ID"].(float64)
 	if !ok {
 		return nil, errors.New("something went wrong")
 	}
 
 	return &TokenPayload{
-		ID: uint(id),
+		ID: uint64(id),
 	}, nil
 }

@@ -2,7 +2,7 @@ package types
 
 // TodoResponse struct contains the todo field which should be returned in a response
 type TodoResponse struct {
-	ID        uint   `json:"id"`
+	ID        uint64 `json:"id"`
 	Task      string `json:"task"`
 	Completed bool   `json:"completed"`
 }
