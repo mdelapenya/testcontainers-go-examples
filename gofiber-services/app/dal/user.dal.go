@@ -1,8 +1,6 @@
 package dal
 
 import (
-	"testcontainers-go-examples/gotodo/config/database"
-
 	"gorm.io/gorm"
 )
 
@@ -16,16 +14,16 @@ type User struct {
 }
 
 // CreateUser create a user entry in the user's table
-func CreateUser(user *User) *gorm.DB {
-	return database.DB.Create(user)
+func CreateUser(db *gorm.DB, user *User) *gorm.DB {
+	return db.Create(user)
 }
 
 // FindUser searches the user's table with the condition given
-func FindUser(dest interface{}, conds ...interface{}) *gorm.DB {
-	return database.DB.Model(&User{}).Take(dest, conds...)
+func FindUser(db *gorm.DB, dest interface{}, conds ...interface{}) *gorm.DB {
+	return db.Model(&User{}).Take(dest, conds...)
 }
 
 // FindUserByEmail searches the user's table with the email given
-func FindUserByEmail(dest interface{}, email string) *gorm.DB {
-	return FindUser(dest, "email = ?", email)
+func FindUserByEmail(db *gorm.DB, dest interface{}, email string) *gorm.DB {
+	return FindUser(db, dest, "email = ?", email)
 }

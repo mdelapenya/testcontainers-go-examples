@@ -5,6 +5,7 @@ import (
 
 	"testcontainers-go-examples/gotodo/app/dal"
 	"testcontainers-go-examples/gotodo/app/types"
+	"testcontainers-go-examples/gotodo/config/database"
 	"testcontainers-go-examples/gotodo/utils"
 	"testcontainers-go-examples/gotodo/utils/jwt"
 	"testcontainers-go-examples/gotodo/utils/password"
@@ -23,7 +24,7 @@ func Login(ctx fiber.Ctx) error {
 
 	u := &types.UserResponse{}
 
-	err := dal.FindUserByEmail(u, b.Email).Error
+	err := dal.FindUserByEmail(database.DB, u, b.Email).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return fiber.NewError(fiber.StatusUnauthorized, "Invalid email or password")
@@ -53,7 +54,7 @@ func Signup(ctx fiber.Ctx) error {
 		return err
 	}
 
-	err := dal.FindUserByEmail(&struct{ ID string }{}, b.Email).Error
+	err := dal.FindUserByEmail(database.DB, &struct{ ID string }{}, b.Email).Error
 
 	// If email already exists, return
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -67,7 +68,7 @@ func Signup(ctx fiber.Ctx) error {
 	}
 
 	// Create a user, if error return
-	if err := dal.CreateUser(user); err.Error != nil {
+	if err := dal.CreateUser(database.DB, user); err.Error != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error.Error())
 	}
 

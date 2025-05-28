@@ -67,7 +67,7 @@ func main() {
 	// Override the default database connection string with the one from the Testcontainers service.
 	config.DB = connString
 
-	database.Connect()
+	database.Connect(config.DB)
 	database.Migrate(&dal.User{}, &dal.Todo{})
 
 	app.Use(logger.New())

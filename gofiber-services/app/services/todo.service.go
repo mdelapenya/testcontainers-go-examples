@@ -5,6 +5,7 @@ import (
 
 	"testcontainers-go-examples/gotodo/app/dal"
 	"testcontainers-go-examples/gotodo/app/types"
+	"testcontainers-go-examples/gotodo/config/database"
 	"testcontainers-go-examples/gotodo/utils"
 
 	"github.com/gofiber/fiber/v3"
@@ -24,7 +25,7 @@ func CreateTodo(c fiber.Ctx) error {
 		User: utils.GetUser(c),
 	}
 
-	if err := dal.CreateTodo(d).Error; err != nil {
+	if err := dal.CreateTodo(database.DB, d).Error; err != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error())
 	}
 
@@ -41,7 +42,7 @@ func CreateTodo(c fiber.Ctx) error {
 func GetTodos(c fiber.Ctx) error {
 	d := &[]types.TodoResponse{}
 
-	err := dal.FindTodosByUser(d, utils.GetUser(c)).Error
+	err := dal.FindTodosByUser(database.DB, d, utils.GetUser(c)).Error
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error())
 	}
@@ -61,7 +62,7 @@ func GetTodo(c fiber.Ctx) error {
 
 	d := &types.TodoResponse{}
 
-	err := dal.FindTodoByUser(d, todoID, utils.GetUser(c)).Error
+	err := dal.FindTodoByUser(database.DB, d, todoID, utils.GetUser(c)).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return c.JSON(&types.TodoCreateResponse{})
 	}
@@ -79,7 +80,7 @@ func DeleteTodo(c fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusUnprocessableEntity, "Invalid todoID")
 	}
 
-	res := dal.DeleteTodo(todoID, utils.GetUser(c))
+	res := dal.DeleteTodo(database.DB, todoID, utils.GetUser(c))
 	if res.RowsAffected == 0 {
 		return fiber.NewError(fiber.StatusConflict, "Unable to delete todo")
 	}
@@ -107,7 +108,7 @@ func CheckTodo(c fiber.Ctx) error {
 		return err
 	}
 
-	err := dal.UpdateTodo(todoID, utils.GetUser(c), map[string]interface{}{"completed": b.Completed}).Error
+	err := dal.UpdateTodo(database.DB, todoID, utils.GetUser(c), map[string]interface{}{"completed": b.Completed}).Error
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error())
 	}
@@ -130,7 +131,7 @@ func UpdateTodoTitle(c fiber.Ctx) error {
 		return err
 	}
 
-	err := dal.UpdateTodo(todoID, utils.GetUser(c), &dal.Todo{Task: b.Task}).Error
+	err := dal.UpdateTodo(database.DB, todoID, utils.GetUser(c), &dal.Todo{Task: b.Task}).Error
 	if err != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error())
 	}
