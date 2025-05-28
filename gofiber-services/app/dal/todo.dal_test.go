@@ -11,7 +11,7 @@ import (
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 )
 
-func TestDB(t *testing.T) {
+func TestTodos(t *testing.T) {
 	pgCtr, err := postgres.Run(
 		context.Background(),
 		"postgres:16",
