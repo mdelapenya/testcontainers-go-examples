@@ -4,6 +4,7 @@ use (
 	./compose-module
 	./docker-model-runner
 	./expose-host-port
+	./gofiber-services
 	./parallel-containers
 	./quickstart
 	./using-modules
