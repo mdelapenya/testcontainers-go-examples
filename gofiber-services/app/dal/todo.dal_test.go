@@ -43,12 +43,10 @@ func TestTodos(t *testing.T) {
 	result = result.Scan(&user)
 	require.NoError(t, result.Error)
 
-	uID := user.ID
-
 	t.Run("create", func(t *testing.T) {
 		result := dal.CreateTodo(db, &dal.Todo{
 			Task: "Buy groceries",
-			User: &uID,
+			User: &user.ID,
 		})
 		require.NoError(t, result.Error)
 
@@ -59,7 +57,7 @@ func TestTodos(t *testing.T) {
 		// create a second todo
 		result = dal.CreateTodo(db, &dal.Todo{
 			Task: "Clean the swimming pool",
-			User: &uID,
+			User: &user.ID,
 		})
 		require.NoError(t, result.Error)
 
@@ -91,7 +89,7 @@ func TestTodos(t *testing.T) {
 			require.Error(t, result.Error)
 			require.Zero(t, result.RowsAffected)
 
-			result = dal.UpdateTodo(db, todo1.ID, &uID, &dal.Todo{Task: "Buy a new car"})
+			result = dal.UpdateTodo(db, todo1.ID, &user.ID, &dal.Todo{Task: "Buy a new car"})
 			require.NoError(t, result.Error)
 
 			result = dal.FindTodo(db, &dal.Todo{}, "todos.task = ?", "Buy a new car")
@@ -102,7 +100,7 @@ func TestTodos(t *testing.T) {
 		t.Run("delete", func(t *testing.T) {
 			result := dal.CreateTodo(db, &dal.Todo{
 				Task: "do the house cleaning",
-				User: &uID,
+				User: &user.ID,
 			})
 			require.NoError(t, result.Error)
 
@@ -110,7 +108,7 @@ func TestTodos(t *testing.T) {
 			result = result.Scan(todo)
 			require.NoError(t, result.Error)
 
-			result = dal.DeleteTodo(db, todo.ID, &uID)
+			result = dal.DeleteTodo(db, todo.ID, &user.ID)
 			require.NoError(t, result.Error)
 			require.Equal(t, int64(1), result.RowsAffected)
 		})
