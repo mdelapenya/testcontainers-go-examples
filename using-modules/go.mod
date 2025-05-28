@@ -1,10 +1,11 @@
-module testcontainers-go-examples/elasticsearch-module
+module testcontainers-go-examples/using-modules
 
 go 1.23.8
 
 require (
 	github.com/testcontainers/testcontainers-go v0.37.0
 	github.com/testcontainers/testcontainers-go/modules/elasticsearch v0.37.0
+	github.com/testcontainers/testcontainers-go/modules/mysql v0.37.0
 )
 
 require (
