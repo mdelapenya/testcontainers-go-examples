@@ -2,8 +2,6 @@ module github.com/mdelapenya/testcontainers-go-examples/gofiber-services
 
 go 1.24.1
 
-toolchain go1.24.3
-
 require (
 	github.com/go-playground/validator/v10 v10.26.0
 	github.com/gofiber/contrib/testcontainers v0.1.0
