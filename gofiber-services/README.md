@@ -10,7 +10,9 @@ description: A Todo application with authentication using GORM and Postgres.
 
 This project demonstrates a Todo application with authentication using GORM and Testcontainers.
 
-The database is a Postgres instance created using the GoFiber's [Testcontainers Service module](https://github.com/gofiber/contrib/testcontainers).
+The database is a Postgres instance created using the GoFiber's [Testcontainers Service module](https://github.com/gofiber/contrib/testcontainers). The instance is reused across multiple runs of the application, allowing to develop locally without having to wait for the database to be ready.
+
+When using the `air` command to run the application, the database is automatically started alongside the Fiber application, and it's automatically stopped when the air command is interrupted.
 
 ## Prerequisites
 
@@ -58,4 +60,8 @@ TOKENKEY=
 # Should be time.ParseDuration string. Source: https://golang.org/pkg/time/#ParseDuration
 # default: 10h
 TOKENEXP=
+
+# TESTCONTAINERS_RYUK_DISABLED disables the Ryuk container, to avoid removing the database container when the application is stopped.
+# default: true
+TESTCONTAINERS_RYUK_DISABLED=true
 ```
