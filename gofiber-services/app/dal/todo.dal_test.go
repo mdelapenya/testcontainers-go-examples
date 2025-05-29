@@ -41,6 +41,8 @@ func TestTodos(t *testing.T) {
 	result := dal.CreateUser(db, user)
 	require.NoError(t, result.Error)
 
+	// Make sure that gorm.Model.ID is uint64, which could happen
+	// if the machine compiling the code has multiple versions of gorm.
 	uid := uint64(user.ID)
 
 	result = result.Scan(&user)

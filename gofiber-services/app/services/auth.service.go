@@ -67,6 +67,8 @@ func Signup(ctx fiber.Ctx) error {
 		Email:    b.Email,
 	}
 
+	// Make sure that gorm.Model.ID is uint64, which could happen
+	// if the machine compiling the code has multiple versions of gorm.
 	uid := uint64(user.ID)
 
 	// Create a user, if error return
