@@ -25,13 +25,15 @@ func CreateTodo(c fiber.Ctx) error {
 		User: utils.GetUser(c),
 	}
 
+	uid := uint64(d.ID)
+
 	if err := dal.CreateTodo(database.DB, d).Error; err != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error())
 	}
 
 	return c.JSON(&types.TodoCreateResponse{
 		Todo: &types.TodoResponse{
-			ID:        d.ID,
+			ID:        uid,
 			Task:      d.Task,
 			Completed: d.Completed,
 		},

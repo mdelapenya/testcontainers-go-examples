@@ -67,6 +67,8 @@ func Signup(ctx fiber.Ctx) error {
 		Email:    b.Email,
 	}
 
+	uid := uint64(user.ID)
+
 	// Create a user, if error return
 	if err := dal.CreateUser(database.DB, user); err.Error != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error.Error())
@@ -74,12 +76,12 @@ func Signup(ctx fiber.Ctx) error {
 
 	// generate access token
 	t := jwt.Generate(&jwt.TokenPayload{
-		ID: user.ID,
+		ID: uid,
 	})
 
 	return ctx.JSON(&types.AuthResponse{
 		User: &types.UserResponse{
-			ID:    user.ID,
+			ID:    uid,
 			Name:  user.Name,
 			Email: user.Email,
 		},
