@@ -42,16 +42,7 @@ func main() {
 	}
 
 	// Add the Postgres service to the app, including custom configuration.
-	srv, err := testcontainers.AddService(&cfg, testcontainers.NewModuleConfig(
-		"postgres-db",
-		"postgres:16",
-		postgres.Run,
-		postgres.BasicWaitStrategies(),
-		postgres.WithDatabase("todos"),
-		postgres.WithUsername("postgres"),
-		postgres.WithPassword("postgres"),
-		tc.WithReuseByName("postgres-db-todos"),
-	))
+	srv, err := setupPostgres(&cfg)
 	if err != nil {
 		panic(err)
 	}
@@ -82,4 +73,25 @@ func main() {
 	if err := app.Listen(fmt.Sprintf(":%v", config.PORT)); err != nil {
 		panic(err)
 	}
+}
+
+// setupPostgres adds a Postgres service to the app, including custom configuration to allow
+// reusing the same container while developing locally.
+func setupPostgres(cfg *fiber.Config) (*testcontainers.ContainerService[*postgres.PostgresContainer], error) {
+	// Add the Postgres service to the app, including custom configuration.
+	srv, err := testcontainers.AddService(cfg, testcontainers.NewModuleConfig(
+		"postgres-db",
+		"postgres:16",
+		postgres.Run,
+		postgres.BasicWaitStrategies(),
+		postgres.WithDatabase("todos"),
+		postgres.WithUsername("postgres"),
+		postgres.WithPassword("postgres"),
+		tc.WithReuseByName("postgres-db-todos"),
+	))
+	if err != nil {
+		return nil, fmt.Errorf("add postgres service: %w", err)
+	}
+
+	return srv, nil
 }
