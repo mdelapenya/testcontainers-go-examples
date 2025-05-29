@@ -25,13 +25,13 @@ func CreateTodo(c fiber.Ctx) error {
 		User: utils.GetUser(c),
 	}
 
-	// Make sure that gorm.Model.ID is uint64, which could happen
-	// if the machine compiling the code has multiple versions of gorm.
-	uid := uint64(d.ID)
-
 	if err := dal.CreateTodo(database.DB, d).Error; err != nil {
 		return fiber.NewError(fiber.StatusConflict, err.Error())
 	}
+
+	// Make sure that gorm.Model.ID is uint64, which could happen
+	// if the machine compiling the code has multiple versions of gorm.
+	uid := uint64(d.ID)
 
 	return c.JSON(&types.TodoCreateResponse{
 		Todo: &types.TodoResponse{
