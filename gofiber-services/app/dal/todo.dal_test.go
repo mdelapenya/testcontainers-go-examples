@@ -41,13 +41,15 @@ func TestTodos(t *testing.T) {
 	result := dal.CreateUser(db, user)
 	require.NoError(t, result.Error)
 
+	uid := uint64(user.ID)
+
 	result = result.Scan(&user)
 	require.NoError(t, result.Error)
 
 	t.Run("create", func(t *testing.T) {
 		result := dal.CreateTodo(db, &dal.Todo{
 			Task: "Buy groceries",
-			User: &user.ID,
+			User: &uid,
 		})
 		require.NoError(t, result.Error)
 
@@ -58,7 +60,7 @@ func TestTodos(t *testing.T) {
 		// create a second todo
 		result = dal.CreateTodo(db, &dal.Todo{
 			Task: "Clean the swimming pool",
-			User: &user.ID,
+			User: &uid,
 		})
 		require.NoError(t, result.Error)
 
@@ -68,13 +70,13 @@ func TestTodos(t *testing.T) {
 			require.Equal(t, int64(1), result.RowsAffected)
 
 			t.Run("todos-by-user", func(t *testing.T) {
-				result := dal.FindTodosByUser(db, &[]dal.Todo{}, user.ID)
+				result := dal.FindTodosByUser(db, &[]dal.Todo{}, uid)
 				require.NoError(t, result.Error)
 				require.Equal(t, int64(2), result.RowsAffected)
 			})
 
 			t.Run("todo-by-user", func(t *testing.T) {
-				result := dal.FindTodoByUser(db, &[]dal.Todo{}, todo1.ID, user.ID)
+				result := dal.FindTodoByUser(db, &[]dal.Todo{}, todo1.ID, uid)
 				require.NoError(t, result.Error)
 				require.Equal(t, int64(1), result.RowsAffected)
 
@@ -90,7 +92,7 @@ func TestTodos(t *testing.T) {
 			require.Error(t, result.Error)
 			require.Zero(t, result.RowsAffected)
 
-			result = dal.UpdateTodo(db, todo1.ID, &user.ID, &dal.Todo{Task: "Buy a new car"})
+			result = dal.UpdateTodo(db, todo1.ID, &uid, &dal.Todo{Task: "Buy a new car"})
 			require.NoError(t, result.Error)
 
 			result = dal.FindTodo(db, &dal.Todo{}, "todos.task = ?", "Buy a new car")
@@ -101,7 +103,7 @@ func TestTodos(t *testing.T) {
 		t.Run("delete", func(t *testing.T) {
 			result := dal.CreateTodo(db, &dal.Todo{
 				Task: "do the house cleaning",
-				User: &user.ID,
+				User: &uid,
 			})
 			require.NoError(t, result.Error)
 
@@ -109,7 +111,7 @@ func TestTodos(t *testing.T) {
 			result = result.Scan(todo)
 			require.NoError(t, result.Error)
 
-			result = dal.DeleteTodo(db, todo.ID, &user.ID)
+			result = dal.DeleteTodo(db, todo.ID, &uid)
 			require.NoError(t, result.Error)
 			require.Equal(t, int64(1), result.RowsAffected)
 		})
