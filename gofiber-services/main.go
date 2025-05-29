@@ -1,19 +1,14 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
-	"github.com/gofiber/contrib/testcontainers"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"
-	tc "github.com/testcontainers/testcontainers-go"
-	"github.com/testcontainers/testcontainers-go/modules/postgres"
 
 	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/dal"
 	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/routes"
@@ -27,42 +22,14 @@ func main() {
 		ErrorHandler: utils.ErrorHandler,
 	}
 
-	// Define a context provider for the services startup.
-	// This is useful to cancel the startup of the services if the context is canceled.
-	// Default is context.Background().
-	startupCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	cfg.ServicesStartupContextProvider = func() context.Context {
-		return startupCtx
-	}
-
-	// Define a context provider for the services shutdown.
-	// This is useful to cancel the shutdown of the services if the context is canceled.
-	// Default is context.Background().
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	cfg.ServicesShutdownContextProvider = func() context.Context {
-		return shutdownCtx
-	}
-
-	// Add the Postgres service to the app, including custom configuration.
-	srv, err := setupPostgres(&cfg)
+	appConfig, err := config.ConfigureApp(cfg)
 	if err != nil {
 		panic(err)
 	}
 
-	app := fiber.New(cfg)
-
-	// Retrieve the Postgres service from the app, using the service key.
-	postgresSrv := fiber.MustGetService[*testcontainers.ContainerService[*postgres.PostgresContainer]](app.State(), srv.Key())
-
-	connString, err := postgresSrv.Container().ConnectionString(context.Background())
-	if err != nil {
-		panic(err)
-	}
-
-	// Override the default database connection string with the one from the Testcontainers service.
-	config.DB = connString
+	app := appConfig.App
+	defer appConfig.StartupCancel()
+	defer appConfig.ShutdownCancel()
 
 	database.Connect(config.DB)
 	if err := database.Migrate(&dal.User{}, &dal.Todo{}); err != nil {
@@ -90,25 +57,4 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-}
-
-// setupPostgres adds a Postgres service to the app, including custom configuration to allow
-// reusing the same container while developing locally.
-func setupPostgres(cfg *fiber.Config) (*testcontainers.ContainerService[*postgres.PostgresContainer], error) {
-	// Add the Postgres service to the app, including custom configuration.
-	srv, err := testcontainers.AddService(cfg, testcontainers.NewModuleConfig(
-		"postgres-db",
-		"postgres:16",
-		postgres.Run,
-		postgres.BasicWaitStrategies(),
-		postgres.WithDatabase("todos"),
-		postgres.WithUsername("postgres"),
-		postgres.WithPassword("postgres"),
-		tc.WithReuseByName("postgres-db-todos"),
-	))
-	if err != nil {
-		return nil, fmt.Errorf("add postgres service: %w", err)
-	}
-
-	return srv, nil
 }
