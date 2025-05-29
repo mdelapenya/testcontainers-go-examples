@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/contrib/testcontainers"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/logger"
+	tc "github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 
 	"github.com/mdelapenya/testcontainers-go-examples/gofiber-services/app/dal"
@@ -49,6 +50,7 @@ func main() {
 		postgres.WithDatabase("todos"),
 		postgres.WithUsername("postgres"),
 		postgres.WithPassword("postgres"),
+		tc.WithReuseByName("postgres-db-todos"),
 	))
 	if err != nil {
 		panic(err)
