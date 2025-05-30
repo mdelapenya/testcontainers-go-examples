@@ -48,19 +48,13 @@ func main() {
 		}
 	}()
 
-	// Only handle signals if not running in development mode
-	if os.Getenv("APP_ENV") != "dev" {
-		quit := make(chan os.Signal, 1)                    // Create channel to signify a signal being sent
-		signal.Notify(quit, os.Interrupt, syscall.SIGTERM) // When an interrupt or termination signal is sent, notify the channel
+	quit := make(chan os.Signal, 1)                    // Create channel to signify a signal being sent
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM) // When an interrupt or termination signal is sent, notify the channel
 
-		<-quit // This blocks the main thread until an interrupt is received
-		fmt.Println("Gracefully shutting down...")
-		err = app.Shutdown()
-		if err != nil {
-			log.Panic(err)
-		}
-	} else {
-		// In development mode, just block forever
-		select {}
+	<-quit // This blocks the main thread until an interrupt is received
+	fmt.Println("Gracefully shutting down...")
+	err = app.Shutdown()
+	if err != nil {
+		log.Panic(err)
 	}
 }
