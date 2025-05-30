@@ -14,8 +14,7 @@ import (
 )
 
 // ConfigureApp configures the fiber app, including the database connection string.
-// The connection string is retrieved from the environment variable DB, or using
-// tries to connect to a local postgres instance if the environment variable is not set.
+// The connection string is retrieved from the PostgreSQL service.
 func ConfigureApp(cfg fiber.Config) (*AppConfig, error) {
 	// Define a context provider for the services startup.
 	// The timeout is applied when the context is actually used during startup.
