@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/docker/compose/v2/pkg/api"
+	"github.com/docker/go-connections/nat"
 	tccompose "github.com/testcontainers/testcontainers-go/modules/compose"
 	"github.com/testcontainers/testcontainers-go/wait"
 )
@@ -90,6 +92,35 @@ func Example_compose_waitForLogStrategy() {
 	err = compose.
 		WaitForService("mysql", wait.NewLogStrategy("started").WithStartupTimeout(10*time.Second).WithOccurrence(1)).
 		Up(ctx, tccompose.Wait(true))
+
+	fmt.Println(err)
+
+	// Output:
+	// <nil>
+}
+
+func Example_composeWithStackFiles() {
+	ctx := context.Background()
+
+	dockerCompose, err := tccompose.NewDockerComposeWith(
+		tccompose.WithStackFiles(filepath.Join("testdata", "docker-compose-stack.yml")),
+		tccompose.StackIdentifier("nginx-compose"),
+	)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	err = dockerCompose.
+		WaitForService("nginx", wait.NewHTTPStrategy("/").
+			WithPort(nat.Port("80/tcp")).
+			WithStartupTimeout(20*time.Second),
+		).
+		Up(ctx, tccompose.Wait(true), tccompose.WithRecreate(api.RecreateNever))
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
 	fmt.Println(err)
 
