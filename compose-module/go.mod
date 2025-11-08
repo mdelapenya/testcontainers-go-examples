@@ -5,8 +5,8 @@ go 1.24.1
 require (
 	github.com/docker/compose/v2 v2.35.0
 	github.com/docker/go-connections v0.6.0
-	github.com/testcontainers/testcontainers-go v0.39.0
-	github.com/testcontainers/testcontainers-go/modules/compose v0.39.0
+	github.com/testcontainers/testcontainers-go v0.40.0
+	github.com/testcontainers/testcontainers-go/modules/compose v0.40.0
 )
 
 replace (
