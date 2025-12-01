@@ -1,6 +1,6 @@
 module testcontainers-go-examples/compose-module
 
-go 1.24.1
+go 1.25.4
 
 require (
 	github.com/docker/compose/v2 v2.35.0
