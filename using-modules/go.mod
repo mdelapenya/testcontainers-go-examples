@@ -3,9 +3,9 @@ module testcontainers-go-examples/using-modules
 go 1.25.4
 
 require (
-	github.com/testcontainers/testcontainers-go v0.39.0
-	github.com/testcontainers/testcontainers-go/modules/elasticsearch v0.39.0
-	github.com/testcontainers/testcontainers-go/modules/mysql v0.39.0
+	github.com/testcontainers/testcontainers-go v0.40.0
+	github.com/testcontainers/testcontainers-go/modules/elasticsearch v0.40.0
+	github.com/testcontainers/testcontainers-go/modules/mysql v0.40.0
 )
 
 require (
