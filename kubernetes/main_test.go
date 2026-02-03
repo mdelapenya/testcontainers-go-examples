@@ -4,7 +4,6 @@ import (
 	"bytes"
 	_ "embed"
 	"fmt"
-	"io"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -40,31 +39,19 @@ func TestKubernetesDeployment(t *testing.T) {
 		k3s.WithManifest(filepath.Join("manifests", "quickpizza.yaml")),
 		testcontainers.WithExposedPorts("3333/tcp"),
 		network.WithNetwork([]string{k3sAlias}, nw),
+		testcontainers.WithAfterReadyCommand(
+			// The PVC wait is the most critical piece since the StatefulSet won't start without a bound PVC,
+			// and this can occasionally be slow in CI environments!
+			testcontainers.NewRawCommand([]string{"kubectl", "wait", "pvc", "--all", "--for=jsonpath='{.status.phase}'=Bound", "--timeout=90s"}),
+			testcontainers.NewRawCommand([]string{"kubectl", "wait", "statefulset", "--all", "--for=jsonpath='{.status.readyReplicas}'=1", "--timeout=90s"}),
+			testcontainers.NewRawCommand([]string{"kubectl", "wait", "deployment", "--all", "--for=condition=Available", "--timeout=90s"}),
+			testcontainers.NewRawCommand([]string{"kubectl", "wait", "pods", "--all", "--for=condition=Ready", "--timeout=90s"}),
+		),
 	)
 	testcontainers.CleanupContainer(t, k3sContainer)
 	require.NoError(t, err)
 
 	t.Logf("🍕 Quickpizza manifest applied successfully")
-
-	rc, stdout, err := k3sContainer.Exec(
-		t.Context(),
-		[]string{
-			"kubectl",
-			"wait",
-			"pods",
-			"--all",
-			"--for=condition=Ready",
-			"--timeout=90s",
-		},
-	)
-	require.NoError(t, err)
-	if rc != 0 {
-		output := bytes.Buffer{}
-		_, err = io.Copy(&output, stdout)
-		require.NoError(t, err)
-		t.Fatalf("pods not ready \n%s\n", output.String())
-	}
-	t.Logf("🍕 Quickpizza pods are ready")
 
 	frontEndUrl := fmt.Sprintf("http://%s:3333", k3sAlias)
 
