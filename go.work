@@ -5,6 +5,7 @@ use (
 	./docker-model-runner
 	./expose-host-port
 	./gofiber-services
+	./kubernetes
 	./parallel-containers
 	./quickstart
 	./using-modules
