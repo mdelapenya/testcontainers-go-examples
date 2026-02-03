@@ -63,7 +63,7 @@ func TestAddLatency(t *testing.T) {
 
 	// Create a redis client that connects to the toxiproxy container.
 	// We are defining a read timeout of 2 seconds, because we are adding
-	// a latency toxic of 1 second to the request, +/- 100ms jitter.
+	// a latency toxic of 1 second to the request, +/- 200ms jitter.
 	redisURI := fmt.Sprintf("redis://%s:%s?read_timeout=2s", toxiproxyProxyHostIP, toxiproxyProxyPort.Port())
 
 	options, err := redis.ParseURL(redisURI)
@@ -151,8 +151,8 @@ func TestConnectionCut(t *testing.T) {
 	proxy := proxies["redis"]
 
 	// Create a redis client that connects to the toxiproxy container.
-	// We are defining a read timeout of 2 seconds, because we are adding
-	// a latency toxic of 1.1 seconds to the request.
+	// We are defining a read timeout of 2 seconds while testing proxy
+	// enable/disable behavior (simulating a connection cut).
 	redisURI := fmt.Sprintf("redis://%s:%s?read_timeout=2s", proxiedRedisHost, proxiedRedisPort)
 
 	options, err := redis.ParseURL(redisURI)
