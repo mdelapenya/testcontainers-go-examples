@@ -14,6 +14,12 @@ import (
 	"github.com/testcontainers/testcontainers-go/modules/k3s"
 	"github.com/testcontainers/testcontainers-go/network"
 	"github.com/testcontainers/testcontainers-go/wait"
+
+	// Add these Kubernetes client-go imports
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/tools/clientcmd"
 )
 
 //go:embed scripts/k6.js
@@ -168,5 +174,95 @@ func TestKubernetesDeployment(t *testing.T) {
 		}
 
 		t.Logf("✅ All Playwright tests passed!")
+	})
+
+	t.Run("kubeconfig tests", func(t *testing.T) {
+		// Get the kubeconfig from the K3s container
+		kubeConfigYaml, err := k3sContainer.GetKubeConfig(t.Context())
+		require.NoError(t, err)
+		t.Logf("📝 Retrieved kubeconfig from K3s container")
+
+		// Create a REST config from the kubeconfig
+		restcfg, err := clientcmd.RESTConfigFromKubeConfig(kubeConfigYaml)
+		require.NoError(t, err)
+
+		// Create a Kubernetes clientset
+		k8s, err := kubernetes.NewForConfig(restcfg)
+		require.NoError(t, err)
+		t.Logf("✅ Connected to Kubernetes API server")
+
+		t.Run("all pods are running", func(t *testing.T) {
+			pods, err := k8s.CoreV1().Pods("default").List(t.Context(), metav1.ListOptions{})
+			require.NoError(t, err)
+			require.NotEmpty(t, pods.Items, "Expected at least one pod to be running")
+
+			runningPods := 0
+			for _, pod := range pods.Items {
+				if pod.Status.Phase == corev1.PodRunning {
+					runningPods++
+					t.Logf("  ✓ Pod %s is running", pod.Name)
+				}
+			}
+			require.Greater(t, runningPods, 0, "Expected at least one pod in Running state")
+			t.Logf("🎯 Found %d running pods", runningPods)
+		})
+
+		t.Run("service exists and is of type LoadBalancer", func(t *testing.T) {
+			service, err := k8s.CoreV1().Services("default").Get(t.Context(), "quickpizza-public-api", metav1.GetOptions{})
+			require.NoError(t, err)
+			require.Equal(t, corev1.ServiceTypeLoadBalancer, service.Spec.Type)
+			require.Equal(t, int32(3333), service.Spec.Ports[0].Port)
+			t.Logf("✅ Service quickpizza-public-api exists (type: %s, port: %d)", service.Spec.Type, service.Spec.Ports[0].Port)
+		})
+
+		t.Run("deployments exist and are ready", func(t *testing.T) {
+			deployments, err := k8s.AppsV1().Deployments("default").List(t.Context(), metav1.ListOptions{
+				LabelSelector: "app.k8s.io/name=quickpizza",
+			})
+			require.NoError(t, err)
+			require.NotEmpty(t, deployments.Items, "Expected at least one deployment")
+
+			for _, deployment := range deployments.Items {
+				require.Equal(t, deployment.Status.ReadyReplicas, deployment.Status.Replicas,
+					"Deployment %s: expected %d ready replicas, got %d",
+					deployment.Name, deployment.Status.Replicas, deployment.Status.ReadyReplicas)
+				t.Logf("  ✓ Deployment %s is ready (%d/%d replicas)",
+					deployment.Name, deployment.Status.ReadyReplicas, deployment.Status.Replicas)
+			}
+			t.Logf("🎯 All %d deployments are ready", len(deployments.Items))
+		})
+
+		t.Run("statefulset exists and is ready", func(t *testing.T) {
+			statefulSets, err := k8s.AppsV1().StatefulSets("default").List(t.Context(), metav1.ListOptions{
+				LabelSelector: "app.kubernetes.io/component=database",
+			})
+			require.NoError(t, err)
+			require.NotEmpty(t, statefulSets.Items, "Expected database StatefulSet to exist")
+
+			for _, sts := range statefulSets.Items {
+				require.Equal(t, sts.Status.ReadyReplicas, *sts.Spec.Replicas,
+					"StatefulSet %s: expected %d ready replicas, got %d",
+					sts.Name, *sts.Spec.Replicas, sts.Status.ReadyReplicas)
+				t.Logf("  ✓ StatefulSet %s is ready (%d/%d replicas)",
+					sts.Name, sts.Status.ReadyReplicas, *sts.Spec.Replicas)
+			}
+			t.Logf("🎯 All %d statefulsets are ready", len(statefulSets.Items))
+		})
+
+		t.Run("configmap exists and has data", func(t *testing.T) {
+			configMap, err := k8s.CoreV1().ConfigMaps("default").Get(t.Context(), "quickpizza-env-common", metav1.GetOptions{})
+			require.NoError(t, err)
+			require.NotEmpty(t, configMap.Data, "Expected ConfigMap to have data")
+			t.Logf("✅ ConfigMap quickpizza-env-common exists with %d keys", len(configMap.Data))
+		})
+
+		t.Run("secret exists and has data", func(t *testing.T) {
+			secret, err := k8s.CoreV1().Secrets("default").Get(t.Context(), "quickpizza-db-credentials", metav1.GetOptions{})
+			require.NoError(t, err)
+			require.NotEmpty(t, secret.Data, "Expected Secret to have data")
+			t.Logf("✅ Secret quickpizza-db-credentials exists")
+		})
+
+		t.Logf("✅ All Kubernetes resources verified successfully!")
 	})
 }
