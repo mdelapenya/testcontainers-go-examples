@@ -8,5 +8,6 @@ use (
 	./kubernetes
 	./parallel-containers
 	./quickstart
+	./toxiproxy
 	./using-modules
 )
