@@ -14,7 +14,6 @@ import (
 	"github.com/testcontainers/testcontainers-go/modules/k3s"
 	"github.com/testcontainers/testcontainers-go/network"
 	"github.com/testcontainers/testcontainers-go/wait"
-
 	// Add these Kubernetes client-go imports
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -118,7 +117,8 @@ func TestKubernetesDeployment(t *testing.T) {
 			if err != nil {
 				t.Logf("getting logs %v", err)
 			} else {
-				logs.ReadFrom(logReader)
+				_, err := logs.ReadFrom(logReader)
+				require.NoError(t, err)
 			}
 
 			t.Fatalf("k6 tests failed with exit code %d\n%s\n", state.ExitCode, logs.String())
@@ -167,7 +167,8 @@ func TestKubernetesDeployment(t *testing.T) {
 			if err != nil {
 				t.Logf("getting logs %v", err)
 			} else {
-				logs.ReadFrom(logReader)
+				_, err := logs.ReadFrom(logReader)
+				require.NoError(t, err)
 			}
 
 			t.Fatalf("Playwright tests failed with exit code %d\n%s\n", state.ExitCode, logs.String())
@@ -203,7 +204,7 @@ func TestKubernetesDeployment(t *testing.T) {
 					t.Logf("  ✓ Pod %s is running", pod.Name)
 				}
 			}
-			require.Greater(t, runningPods, 0, "Expected at least one pod in Running state")
+			require.Positive(t, runningPods, "Expected at least one pod in Running state")
 			t.Logf("🎯 Found %d running pods", runningPods)
 		})
 
