@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 	"github.com/testcontainers/testcontainers-go"
@@ -76,7 +77,7 @@ func TestKubernetesDeployment(t *testing.T) {
 				},
 				Cmd: []string{"run", "/scripts/k6.js"},
 				// Wait for the container to exit
-				WaitingFor: wait.ForExit(),
+				WaitingFor: wait.ForExit().WithExitTimeout(1 * time.Minute),
 				// Connect to the same network as k3s
 				Networks: []string{nw.Name},
 			},
@@ -126,7 +127,7 @@ func TestKubernetesDeployment(t *testing.T) {
 					"cd /tests && npm init -y && npm install @playwright/test && npx playwright test playwright.spec.js",
 				},
 				// Wait for the container to exit
-				WaitingFor: wait.ForExit(),
+				WaitingFor: wait.ForExit().WithExitTimeout(1 * time.Minute),
 				// Connect to the same network as k3s
 				Networks: []string{nw.Name},
 			},
