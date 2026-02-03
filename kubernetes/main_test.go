@@ -14,7 +14,7 @@ import (
 	"github.com/testcontainers/testcontainers-go/modules/k3s"
 	"github.com/testcontainers/testcontainers-go/network"
 	"github.com/testcontainers/testcontainers-go/wait"
-	// Add these Kubernetes client-go imports
+
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -43,14 +43,6 @@ func TestKubernetesDeployment(t *testing.T) {
 		network.WithNetwork([]string{k3sAlias}, nw),
 	)
 	testcontainers.CleanupContainer(t, k3sContainer)
-	require.NoError(t, err)
-
-	err = k3sContainer.CopyFileToContainer(
-		t.Context(),
-		"./manifests/quickpizza.yaml",
-		"quickpizza.yaml",
-		0x644,
-	)
 	require.NoError(t, err)
 
 	t.Logf("🍕 Quickpizza manifest applied successfully")
