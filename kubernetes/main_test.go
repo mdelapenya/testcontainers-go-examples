@@ -43,8 +43,8 @@ func TestKubernetesDeployment(t *testing.T) {
 		testcontainers.WithAfterReadyCommand(
 			// The PVC wait is the most critical piece since the StatefulSet won't start without a bound PVC,
 			// and this can occasionally be slow in CI environments!
-			testcontainers.NewRawCommand([]string{"kubectl", "wait", "pvc", "--all", "--for=jsonpath='{.status.phase}'=Bound", "--timeout=90s"}),
-			testcontainers.NewRawCommand([]string{"kubectl", "wait", "statefulset", "--all", "--for=jsonpath='{.status.readyReplicas}'=1", "--timeout=90s"}),
+			testcontainers.NewRawCommand([]string{"kubectl", "wait", "pvc", "--all", "--for=jsonpath={.status.phase}=Bound", "--timeout=90s"}),
+			testcontainers.NewRawCommand([]string{"kubectl", "wait", "statefulset", "--all", "--for=jsonpath={.status.readyReplicas}=1", "--timeout=90s"}),
 			testcontainers.NewRawCommand([]string{"kubectl", "wait", "deployment", "--all", "--for=condition=Available", "--timeout=90s"}),
 			testcontainers.NewRawCommand([]string{"kubectl", "wait", "pods", "--all", "--for=condition=Ready", "--timeout=90s"}),
 		),
@@ -203,7 +203,7 @@ func TestKubernetesDeployment(t *testing.T) {
 			require.NotEmpty(t, deployments.Items, "Expected at least one deployment")
 
 			for _, deployment := range deployments.Items {
-				require.Equal(t, deployment.Status.ReadyReplicas, deployment.Status.Replicas,
+				require.Equal(t, deployment.Status.Replicas, deployment.Status.ReadyReplicas,
 					"Deployment %s: expected %d ready replicas, got %d",
 					deployment.Name, deployment.Status.Replicas, deployment.Status.ReadyReplicas)
 				t.Logf("  ✓ Deployment %s is ready (%d/%d replicas)",
@@ -220,7 +220,7 @@ func TestKubernetesDeployment(t *testing.T) {
 			require.NotEmpty(t, statefulSets.Items, "Expected database StatefulSet to exist")
 
 			for _, sts := range statefulSets.Items {
-				require.Equal(t, sts.Status.ReadyReplicas, *sts.Spec.Replicas,
+				require.Equal(t, *sts.Spec.Replicas, sts.Status.ReadyReplicas,
 					"StatefulSet %s: expected %d ready replicas, got %d",
 					sts.Name, *sts.Spec.Replicas, sts.Status.ReadyReplicas)
 				t.Logf("  ✓ StatefulSet %s is ready (%d/%d replicas)",

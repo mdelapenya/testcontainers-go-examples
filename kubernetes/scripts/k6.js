@@ -1,6 +1,6 @@
-// scripts/test.js
+// k6 tests for QuickPizza
 import http from "k6/http";
-import { check, sleep } from "k6";
+import { check } from "k6";
 
 const BASE_URL = __ENV.FRONTEND_URL || 'http://localhost:3333';
 
