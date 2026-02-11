@@ -1,0 +1,18 @@
+goos: darwin
+goarch: arm64
+pkg: testcontainers-go-examples/best-practices
+cpu: Apple M3 Max
+BenchmarkReuse/reuse=pure-16         	       3	 340043500 ns/op
+BenchmarkReuse/reuse=pure-16         	       3	 131709417 ns/op
+BenchmarkReuse/reuse=pure-16         	       3	 132638042 ns/op
+BenchmarkReuse/reuse=pure-16         	       3	 122914833 ns/op
+BenchmarkReuse/reuse=pure-16         	       3	 120512028 ns/op
+BenchmarkReuse/reuse=pure-16         	       3	 118109208 ns/op
+BenchmarkReuse/reuse=once-16         	       3	  66139597 ns/op
+BenchmarkReuse/reuse=once-16         	       3	   4046097 ns/op
+BenchmarkReuse/reuse=once-16         	       3	   4740194 ns/op
+BenchmarkReuse/reuse=once-16         	       3	   4017958 ns/op
+BenchmarkReuse/reuse=once-16         	       3	   4783292 ns/op
+BenchmarkReuse/reuse=once-16         	       3	   4408555 ns/op
+PASS
+ok  	testcontainers-go-examples/best-practices	3.634s

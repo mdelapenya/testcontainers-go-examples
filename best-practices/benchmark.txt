@@ -1,0 +1,18 @@
+goos: darwin
+goarch: arm64
+pkg: testcontainers-go-examples/best-practices
+cpu: Apple M3 Max
+BenchmarkContainer/container=per-test-16         	       3	65108331917 ns/op
+BenchmarkContainer/container=per-test-16         	       3	64777602583 ns/op
+BenchmarkContainer/container=per-test-16         	       3	65938420000 ns/op
+BenchmarkContainer/container=per-test-16         	       3	64664680500 ns/op
+BenchmarkContainer/container=per-test-16         	       3	65364865889 ns/op
+BenchmarkContainer/container=per-test-16         	       3	66426573264 ns/op
+BenchmarkContainer/container=shared-16           	       3	6524298264 ns/op
+BenchmarkContainer/container=shared-16           	       3	6603676097 ns/op
+BenchmarkContainer/container=shared-16           	       3	6494792750 ns/op
+BenchmarkContainer/container=shared-16           	       3	6781366833 ns/op
+BenchmarkContainer/container=shared-16           	       3	6541621222 ns/op
+BenchmarkContainer/container=shared-16           	       3	6467391736 ns/op
+PASS
+ok  	testcontainers-go-examples/best-practices	1295.619s
