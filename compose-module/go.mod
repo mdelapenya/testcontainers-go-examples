@@ -4,7 +4,7 @@ go 1.25.4
 
 require (
 	github.com/docker/compose/v2 v2.40.3
-	github.com/docker/go-connections v0.6.0
+	github.com/docker/go-connections v0.7.0
 	github.com/testcontainers/testcontainers-go v0.40.0
 	github.com/testcontainers/testcontainers-go/modules/compose v0.40.0
 )
