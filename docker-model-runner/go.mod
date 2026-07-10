@@ -1,6 +1,6 @@
 module github.com/testcontainers/goexamples/docker-model-runner
 
-go 1.25.5
+go 1.25.9
 
 require (
 	github.com/moby/moby/client v0.4.1

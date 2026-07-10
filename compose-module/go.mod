@@ -1,10 +1,9 @@
 module testcontainers-go-examples/compose-module
 
-go 1.25.5
+go 1.25.9
 
 require (
 	github.com/docker/compose/v2 v2.40.3
-	github.com/docker/go-connections v0.7.0
 	github.com/testcontainers/testcontainers-go v0.43.0
 	github.com/testcontainers/testcontainers-go/modules/compose v0.43.0
 )
@@ -43,6 +42,7 @@ require (
 	github.com/docker/compose/v5 v5.1.4 // indirect
 	github.com/docker/docker v28.5.2+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.9.5 // indirect
+	github.com/docker/go-connections v0.7.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/ebitengine/purego v0.10.0 // indirect
 	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203 // indirect
