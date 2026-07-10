@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/moby/moby/client"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/dockermodelrunner"
 )
@@ -111,12 +112,12 @@ func isDockerDesktop() (bool, error) {
 		return false, fmt.Errorf("new docker client: %w", err)
 	}
 
-	info, err := cli.Info(ctx)
+	result, err := cli.Info(ctx, client.InfoOptions{})
 	if err != nil {
 		return false, fmt.Errorf("docker info: %w", err)
 	}
 
-	if info.OperatingSystem == "Docker Desktop" {
+	if result.Info.OperatingSystem == "Docker Desktop" {
 		return true, nil
 	}
 

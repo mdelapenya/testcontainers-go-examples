@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/docker/compose/v2/pkg/api"
-	"github.com/docker/go-connections/nat"
 	tccompose "github.com/testcontainers/testcontainers-go/modules/compose"
 	"github.com/testcontainers/testcontainers-go/wait"
 )
@@ -113,7 +112,7 @@ func Example_composeWithStackFiles() {
 
 	err = dockerCompose.
 		WaitForService("nginx", wait.NewHTTPStrategy("/").
-			WithPort(nat.Port("80/tcp")).
+			WithPort("80/tcp").
 			WithStartupTimeout(20*time.Second),
 		).
 		Up(ctx, tccompose.Wait(true), tccompose.WithRecreate(api.RecreateNever))
