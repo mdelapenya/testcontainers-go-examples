@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest']
-        testcontainers-go-version: ["v0.40.0", "main"]
+        testcontainers-go-version: ["v0.43.0", "main"]
     runs-on: ${{ matrix.os }} 
     continue-on-error: true
     steps:
