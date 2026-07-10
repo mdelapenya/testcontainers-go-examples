@@ -1,6 +1,6 @@
 module testcontainers-go-examples/parallel-containers
 
-go 1.25.4
+go 1.25.5
 
 require github.com/testcontainers/testcontainers-go v0.43.0
 
