@@ -4,7 +4,7 @@ services:
     ports:
      - "9080:80"
   mysql:
-    image: docker.io/mysql:9
+    image: docker.io/mysql:26
     environment:
       - MYSQL_DATABASE=db
       - MYSQL_ROOT_PASSWORD=my-secret-pw

@@ -9,6 +9,7 @@ require (
 )
 
 replace (
+	github.com/moby/moby/client => github.com/moby/moby/client v0.4.1
 	google.golang.org/genproto => google.golang.org/genproto v0.0.0-20251124214823-79d6a2a48846
 	google.golang.org/genproto/googleapis/rpc => google.golang.org/genproto/googleapis/rpc v0.0.0-20260126211449-d11affda4bed
 )
