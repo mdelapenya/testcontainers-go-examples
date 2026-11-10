@@ -9,7 +9,7 @@ require (
 )
 
 replace (
-	google.golang.org/genproto => google.golang.org/genproto v0.0.0-20251124214823-79d6a2a48846
+	google.golang.org/genproto => google.golang.org/genproto v0.0.0-20261110000943-09e21b237f2c
 	google.golang.org/genproto/googleapis/rpc => google.golang.org/genproto/googleapis/rpc v0.0.0-20260126211449-d11affda4bed
 )
 
